@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendrier de l'Avent - AD Émaux</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    
     <style>
         /* Définition de la palette basée sur la capture d'écran */
         :root {
@@ -96,9 +95,9 @@
         }
         /* Style pour le lien "règlement" dans la note */
         .hero-header .note-reglement a {
-            color: inherit;
-            text-decoration: underline;
-            cursor: pointer;
+             color: inherit;
+             text-decoration: underline;
+             cursor: pointer;
         }
         .cta-button {
             display: inline-block;
@@ -124,7 +123,7 @@
             padding: 2rem 0;
             background-color: var(--light-bg);
             position: relative; 
-            z-index: 10;     
+            z-index: 10;      
         }
         
         /* Styles des Portes (QCM) */
@@ -161,15 +160,10 @@
             font-weight: bold;
             border: 4px solid var(--accent-gold);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            pointer-events: all; /* Important : réactive le clic */
+            pointer-events: none; 
         }
-        .door:hover .door-front:not(.locked .door-front):not(.submitted .door-front) {
-            opacity: 0.9;
-            transform: scale(1.02);
-            transition: all 0.2s;
-        }
-
-        /* STYLE POUR LA PORTE APRÈS SOUMISSION (Affiche l'image/statut) */
+        
+        /* STYLE POUR LA PORTE APRÈS SOUMISSION (Affiche l'image) */
         .door.submitted .door-front {
             background-color: var(--light-bg); 
             color: var(--primary-marine);
@@ -178,43 +172,24 @@
             cursor: not-allowed;
             line-height: 1.2;
             padding: 5px; 
-            pointer-events: none; /* Toujours inactif après soumission */
-        }
-        /* Styles pour le contenu de la porte soumise */
-        .submitted-content {
-            /* Utilise Flexbox pour centrer l'image et le texte */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100%; 
-            padding: 5px; 
-            box-sizing: border-box;
-            text-align: center;
+            pointer-events: none; /* Toujours inactif après soumission */
         }
-        /* Style pour la petite image en aperçu */
-        .submitted-preview-img {
-            max-width: 80%; 
-            max-height: 60%;
-            height: auto;
+        .door.submitted .door-front img {
+            max-width: 80%;
+            max-height: 80%;
+            margin: 0 auto;
             object-fit: contain;
-            border-radius: 5px;
-            margin-bottom: 5px;
-            pointer-events: none; 
-        }
-        /* Style pour le texte de statut "Répondu" */
-        .submitted-content small {
-            font-size: 0.9em;
-            font-weight: bold;
-            color: #4CAF50; /* Vert pour le succès */
-            opacity: 0.9;
+            border-radius: 4px;
         }
 
         .door.locked {
             filter: grayscale(80%);
             opacity: 0.7;
             cursor: not-allowed;
-            pointer-events: none; /* Empêche le clic sur les portes verrouillées */
         }
         .door-back {
             display: none; 
@@ -321,9 +296,9 @@
             border-radius: 5px;
         }
         #popup-quiz-content small {
-            display: block;
-            margin-top: 10px;
-            color: #666;
+             display: block;
+             margin-top: 10px;
+             color: #666;
         }
 
         /* SECTION ATELIER (Nouvelle Section) */
@@ -474,7 +449,7 @@
         <div class="container hero-content">
             <h1>Calendrier de l'Avent AD Émaux</h1>
             
-            <p>24 jours pour découvrir les secrets de l'émail d'art et tenter de gagner une pièce unique.*</p>
+            <p>24 jours pour percer les secrets de l'émail d'art et tenter de gagner une pièce unique sur mesure.</p>
             
             <span class="note-reglement">
                 *<em>D'une valeur indicative de 50€ (voir <a href="#" onclick="openReglement()">règlement</a>).</em>
@@ -484,281 +459,266 @@
     </header>
 
     <section class="advent-calendar-section">
-        <div class="container advent-calendar-grid" id="advent-calendar-grid">
+        <div class="container advent-calendar-grid">
+            
+            <div class="door" data-day="1" id="day-1">
+                <div class="door-inner">
+                    <div class="door-front">1</div>
+                    <div class="door-back"></div>
+                </div>
             </div>
+
+            <div class="door" data-day="2" id="day-2">
+                <div class="door-inner">
+                    <div class="door-front">2</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="3" id="day-3">
+                <div class="door-inner">
+                    <div class="door-front">3</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="4" id="day-4">
+                <div class="door-inner">
+                    <div class="door-front">4</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="5" id="day-5">
+                <div class="door-inner">
+                    <div class="door-front">5</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="6" id="day-6">
+                <div class="door-inner">
+                    <div class="door-front">6</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="7" id="day-7">
+                <div class="door-inner">
+                    <div class="door-front">7</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="8" id="day-8">
+                <div class="door-inner">
+                    <div class="door-front">8</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="9" id="day-9">
+                <div class="door-inner">
+                    <div class="door-front">9</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="10" id="day-10">
+                <div class="door-inner">
+                    <div class="door-front">10</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="11" id="day-11">
+                <div class="door-inner">
+                    <div class="door-front">11</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="12" id="day-12">
+                <div class="door-inner">
+                    <div class="door-front">12</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="13" id="day-13">
+                <div class="door-inner">
+                    <div class="door-front">13</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="14" id="day-14">
+                <div class="door-inner">
+                    <div class="door-front">14</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="15" id="day-15">
+                <div class="door-inner">
+                    <div class="door-front">15</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="16" id="day-16">
+                <div class="door-inner">
+                    <div class="door-front">16</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="17" id="day-17">
+                <div class="door-inner">
+                    <div class="door-front">17</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="18" id="day-18">
+                <div class="door-inner">
+                    <div class="door-front">18</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="19" id="day-19">
+                <div class="door-inner">
+                    <div class="door-front">19</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="20" id="day-20">
+                <div class="door-inner">
+                    <div class="door-front">20</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="21" id="day-21">
+                <div class="door-inner">
+                    <div class="door-front">21</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="22" id="day-22">
+                <div class="door-inner">
+                    <div class="door-front">22</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="23" id="day-23">
+                <div class="door-inner">
+                    <div class="door-front">23</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="24" id="day-24">
+                <div class="door-inner">
+                    <div class="door-front">24</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="25" id="day-25">
+                <div class="door-inner">
+                    <div class="door-front">25</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+        </div>
     </section>
 
     <section class="differentiation-section">
         <div class="container">
-            <h2>AD Émaux - L'Atelier</h2>
+            <h2>L'Atelier d'Anne de La Forge</h2>
             <div class="content-box">
-                <p><strong>L'émail d'art</strong> est une technique séculaire qui consiste à fusionner de la poudre de verre colorée sur un support métallique (cuivre, argent, or) à très haute température. Chaque pièce est unique, façonnée à la main par l'artisan d'art.</p>
-                <p>Découvrez notre savoir-faire unique et nos créations. Nous vous accueillons sur rendez-vous à Gouvieux pour des démonstrations ou des commandes personnalisées.</p>
-                <a href="https://ad-emaux.fr/contact/" class="cta-button">Visiter l'Atelier</a>
+                <p><strong>L'émail, une fusion unique :</strong> L'émail sur cuivre est une technique d'artisanat d'art où la poudre de verre est vitrifiée sur un support métallique à très haute température (environ 800°C). Cette fusion crée une surface vitreuse, inaltérable, et d'une brillance profonde qui ne peut être reproduite par d'autres moyens.</p>
+                <p><strong>L'art de la patience et de la précision :</strong> Chaque pièce d'AD Émaux est unique. Elle exige de multiples couches successives de poudres et de cuissons, nécessitant un savoir-faire précis et une capacité à anticiper les réactions chimiques de la couleur sous l'effet de la chaleur. Ce processus manuel garantit l'authenticité et la valeur émotionnelle de chaque œuvre.</p>
+                <p><strong>Co-création et dialogue :</strong> L'approche d'AD Émaux s'étend au-delà du seul émail. Nous collaborons régulièrement avec d'autres artisans d'art (ébénistes, verriers, passementiers) pour créer des pièces de mobilier ou des luminaires, fusionnant ainsi les matières et les compétences pour des créations d'intérieur exceptionnelles.</p>
             </div>
         </div>
     </section>
 
-    <div class="door-overlay" id="quiz-popup">
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://ad-emaux.fr/contact/">Contact & Rendez-vous</a> | 
+                <a href="https://ad-emaux.fr/collections/">Collections</a> |
+                <a href="#" onclick="openReglement()">Règlement du Jeu</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/ad_emaux/" target="_blank">
+                    <svg viewBox="0 0 448 512"><path d="M224.1 141c-30.7 0-55.6 24.9-55.6 55.6v89.4c0 30.7 24.9 55.6 55.6 55.6s55.6-24.9 55.6-55.6v-89.4c0-30.7-24.9-55.6-55.6-55.6zm100.8 19.3c-2.3-13.4-13.7-24.8-27.1-27.1-4.7-.8-9.4-1.2-14.2-1.2h-74.9c-4.8 0-9.5.4-14.2 1.2-13.4 2.3-24.8 13.7-27.1 27.1-.8 4.7-1.2 9.4-1.2 14.2v89.4c0 4.8.4 9.5 1.2 14.2 2.3 13.4 13.7 24.8 27.1 27.1 4.7.8 9.4 1.2 14.2 1.2h74.9c4.8 0 9.5-.4 14.2-1.2 13.4-2.3 24.8-13.7 27.1-27.1.8-4.7 1.2-9.4 1.2-14.2v-89.4c0-4.8-.4-9.5-1.2-14.2zM224.1 352c-47.5 0-85.9-38.4-85.9-85.9s38.4-85.9 85.9-85.9 85.9 38.4 85.9 85.9-38.4 85.9-85.9 85.9zm130.6-218.4c-9.5 0-17.1-7.7-17.1-17.1s7.7-17.1 17.1-17.1 17.1 7.7 17.1 17.1-7.7 17.1-17.1 17.1zM448 180.7v150.5c0 41.5-33.6 75.1-75.1 75.1H75.1c-41.5 0-75.1-33.6-75.1-75.1V180.7c0-41.5 33.6-75.1 75.1-75.1h297.8c41.5 0 75.1 33.6 75.1 75.1zM383.6 137.2c-1.3-1.3-3.1-2.1-5-2.1H70.7c-1.9 0-3.7.8-5 2.1-1.3 1.3-2.1 3.1-2.1 5v242.4c0 1.9.8 3.7 2.1 5 1.3 1.3 3.1 2.1 5 2.1h307.9c1.9 0 3.7-.8 5-2.1 1.3-1.3 2.1-3.1 2.1-5V142.2c0-1.9-.8-3.7-2.1-5z"/></svg>
+                </a>
+                <a href="https://www.facebook.com/ad.emaux/" target="_blank">
+                    <svg viewBox="0 0 512 512"><path d="M504 256C504 114.6 397.4 8 256 8S8 114.6 8 256c0 130.7 104 237.4 239.5 247.3V342.5h-59.4V256h59.4v-42c0-58.8 35.8-91.8 89.4-91.8 25.4 0 47.2 2.2 53.6 3.1v61.5h-36.8c-28.7 0-34.3 13.8-34.3 33.9V256h68.8l-9.1 86.5h-59.7V503.3C399 493.4 504 386.7 504 256z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/anne-de-la-forge-a423a23b/" target="_blank">
+                    <svg viewBox="0 0 448 512"><path d="M416 32H32C14.3 32 0 46.3 0 64v384c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32zM128 416H64V192h64v224zM96 160c-25.9 0-47.5-21.4-47.5-47.7 0-26.3 21.6-47.7 47.5-47.7s47.5 21.4 47.5 47.7c0 26.3-21.6 47.7-47.5 47.7zm320 256h-64V272c0-17.7-14.3-32-32-32s-32 14.3-32 32v144h-64V192h64v32.6c11.9-18.4 30.5-32.6 51.5-32.6 37.1 0 67.5 30.4 67.5 67.5v150.5z"/></svg>
+                </a>
+            </div>
+            <div class="mention-links">
+                &copy; 2024 AD Émaux - Tous droits réservés. | 
+                <a href="#">Mentions Légales</a> | 
+                <a href="#">Politique de Confidentialité</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <div class="door-overlay" id="door-overlay" onclick="closePopupIfClickedOutside(event)">
         <div class="door-popup-content">
             <a href="#" class="close-btn" onclick="closePopup()">&times;</a>
             <div id="popup-quiz-content">
                 </div>
         </div>
     </div>
-
-    <div class="reglement-overlay" id="reglement-popup">
+    
+    <div class="reglement-overlay" id="reglement-overlay" onclick="closeReglementIfClickedOutside(event)">
         <div class="reglement-content">
             <a href="#" class="close-btn" onclick="closeReglement()">&times;</a>
-            <h2>Règlement du Jeu Concours "Calendrier de l'Avent"</h2>
-            <h4>Article 1 : Organisation du Jeu</h4>
-            <p>Le jeu "Calendrier de l'Avent AD Émaux" est organisé par [Nom de l'Organisateur]. Il se déroule du 1er au 24 décembre inclus.</p>
-            <h4>Article 2 : Conditions de Participation</h4>
-            <p>La participation est ouverte à toute personne majeure résidant en France Métropolitaine, à l'exception des employés de l'organisateur. Une seule participation est autorisée par jour et par adresse e-mail.</p>
-            <h4>Article 3 : Principe du Jeu</h4>
-            <p>Chaque jour, une porte du calendrier s'ouvre pour révéler une question. Les participants doivent répondre correctement à la question et fournir leur adresse e-mail pour valider leur participation au tirage au sort du lot du jour. Les participations des jours précédents restent valables pour le tirage au sort final du lot principal.</p>
-            <h4>Article 4 : Lots</h4>
-            <p><strong>Lots Quotidiens :</strong> Des réductions, des petits objets émaillés ou des bons d'achat.</p>
-            <p><strong>Lot Principal (tirage final) :</strong> Une pièce d'émail d'art unique d'une valeur indicative de 50€.</p>
-            <h4>Article 5 : Désignation des Gagnants</h4>
-            <p>Les gagnants des lots quotidiens et du lot principal seront tirés au sort parmi les bonnes réponses. Ils seront informés par e-mail.</p>
-            <h4>Article 6 : Données Personnelles (RGPD)</h4>
-            <p>Les données collectées (adresse e-mail) sont nécessaires à la participation au jeu et à la communication des lots. Elles ne seront pas transmises à des tiers sans consentement explicite. Les participants bénéficient d'un droit d'accès, de rectification et d'opposition.</p>
-            </div>
+            <h3>Règlement du Jeu Concours "Calendrier de l'Avent AD Émaux 2024"</h3>
+
+            <h4>Article 1 : Organisation</h4>
+            <p>Le jeu concours est organisé par Anne de La Forge - AD Émaux, artisan d'art émailleur sur cuivre, pour la période du 1er au 24 décembre 2024.</p>
+
+            <h4>Article 2 : Conditions de participation</h4>
+            <p>Le jeu est ouvert à toute personne majeure résidant en France métropolitaine, à l'exception des employés de l'organisateur. La participation est limitée à une réponse par jour et par adresse e-mail. Les réponses aux questions sont validées en ligne via le formulaire dédié.</p>
+
+            <h4>Article 3 : Principe du jeu</h4>
+            <p>Du 1er au 24 décembre, une question relative à l'univers d'AD Émaux et de l'art de l'émail est révélée. Pour participer au tirage au sort final, les participants doivent répondre à une question de type QCM et fournir leur adresse e-mail. **Seules les bonnes réponses sont prises en compte pour le tirage au sort final.**</p>
+
+            <h4>Article 4 : Date du jeu</h4>
+            <p>Le jeu se déroule du 1er au 24 décembre 2024. Toutes les participations doivent être enregistrées avant le 24 décembre à minuit.</p>
+
+            <h4>Article 5 : Dotation</h4>
+            <p>Le lot unique à gagner est une pièce d'art émaillée sur cuivre unique, d'une valeur marchande indicative de 50€. Ce lot ne peut être ni échangé contre sa valeur monétaire, ni remplacé par un autre lot. La mention de la valeur indicative de 50€ est ajoutée au présent règlement.</p>
+
+            <h4>Article 6 : Désignation du gagnant</h4>
+            <p>Le tirage au sort sera effectué le 25 décembre 2025 à 10h, parmi l'ensemble des participations enregistrées (bonnes réponses). Le gagnant sera contacté par e-mail dans les 48 heures suivant le tirage au sort et son nom sera affiché sur la case du 25 du Calendrier de l'Avent.</p>
+
+            <h4>Article 7 : Protection des données personnelles</h4>
+            <p>Les adresses e-mail collectées seront utilisées uniquement pour la gestion du jeu, la notification du gagnant, et l'envoi d'une newsletter d'AD Émaux **si le participant a donné son consentement explicite via la case à cocher**. Conformément à la loi Informatique et Libertés, les participants disposent d'un droit d'accès, de rectification et de suppression de leurs données.</p>
+        </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <div class="social-links">
-                <a href="#"><svg viewBox="0 0 24 24"><path d="M14 12.5a2 2 0 1 0-4 0 2 2 0 0 0 4 0z"/><path d="M7.5 7.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7z"/><path d="M16 3H8a5 5 0 0 0-5 5v8a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5V8a5 5 0 0 0-5-5zm3 13a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v8z"/></svg></a>
-                <a href="#"><svg viewBox="0 0 24 24"><path d="M19 1h-4c-3.86 0-7 3.14-7 7v4H4v4h4v7h4v-7h4l1-4h-5V8c0-1.1.9-2 2-2h3V1z"/></svg></a>
-            </div>
-            <div class="footer-links">
-                <a href="https://ad-emaux.fr/contact/">Contact</a>
-                <a href="https://ad-emaux.fr/creations/">Nos Créations</a>
-                <a href="https://ad-emaux.fr/savoir-faire/">Savoir-faire</a>
-            </div>
-            <p>© 2023 AD Émaux - Tous droits réservés.</p>
-            <div class="mention-links">
-                <a href="#" onclick="openReglement()">Règlement du jeu</a>
-                <a href="#">Mentions Légales</a>
-                <a href="#">Politique de Confidentialité</a>
-            </div>
-        </div>
-    </footer>
 
-    <script>
-        // --- 1. STRUCTURE DES DONNÉES DU QUIZ ---
-        // Ajoutez ici les questions, réponses et images pour chaque jour.
-        // C'est un tableau, l'index 0 correspond au Jour 1, l'index 1 au Jour 2, etc.
-        const quizData = [
-            {
-                day: 1,
-                question: "Jour 1 : Quelle est la couleur de l'émail le plus couramment utilisé par AD Émaux ?",
-                image: "placeholder-quiz-image-1.webp", // REMPLACER AVEC VOS IMAGES
-                options: [
-                    { value: "A", text: "Réponse A : Bleu Marine" },
-                    { value: "B", text: "Réponse B : Vert Sapin" },
-                    { value: "C", text: "Réponse C : Rouge Carmin" }
-                ],
-                correctAnswer: "A" 
-            },
-            {
-                day: 2,
-                question: "Jour 2 : À quelle température l'émail est-il fusionné sur le métal ?",
-                image: "placeholder-quiz-image-2.webp",
-                options: [
-                    { value: "A", text: "Réponse A : Environ 450°C" },
-                    { value: "B", text: "Réponse B : Environ 850°C" },
-                    { value: "C", text: "Réponse C : Environ 100°C" }
-                ],
-                correctAnswer: "B" 
-            },
-            // Dupliquez et modifiez ce bloc pour les jours 3 à 24
-            { day: 3, question: "Jour 3 : Question..." /* ... */ },
-            { day: 4, question: "Jour 4 : Question..." /* ... */ },
-            { day: 5, question: "Jour 5 : Question..." /* ... */ },
-            { day: 6, question: "Jour 6 : Question..." /* ... */ },
-            { day: 7, question: "Jour 7 : Question..." /* ... */ },
-            { day: 8, question: "Jour 8 : Question..." /* ... */ },
-            { day: 9, question: "Jour 9 : Question..." /* ... */ },
-            { day: 10, question: "Jour 10 : Question..." /* ... */ },
-            { day: 11, question: "Jour 11 : Question..." /* ... */ },
-            { day: 12, question: "Jour 12 : Question..." /* ... */ },
-            { day: 13, question: "Jour 13 : Question..." /* ... */ },
-            { day: 14, question: "Jour 14 : Question..." /* ... */ },
-            { day: 15, question: "Jour 15 : Question..." /* ... */ },
-            { day: 16, question: "Jour 16 : Question..." /* ... */ },
-            { day: 17, question: "Jour 17 : Question..." /* ... */ },
-            { day: 18, question: "Jour 18 : Question..." /* ... */ },
-            { day: 19, question: "Jour 19 : Question..." /* ... */ },
-            { day: 20, question: "Jour 20 : Question..." /* ... */ },
-            { day: 21, question: "Jour 21 : Question..." /* ... */ },
-            { day: 22, question: "Jour 22 : Question..." /* ... */ },
-            { day: 23, question: "Jour 23 : Question..." /* ... */ },
-            { day: 24, question: "Jour 24 : Question..." /* ... */ },
-        ];
-
-
-        // --- 2. FONCTIONS DE GESTION DES POP-UPS ---
-
-        // Règlement (OK)
-        function openReglement(event) {
-            if (event) {
-                event.preventDefault(); 
-            }
-            document.getElementById('reglement-popup').classList.add('active');
-            document.getElementById('quiz-popup').classList.remove('active');
-        }
-        function closeReglement() {
-            document.getElementById('reglement-popup').classList.remove('active');
-        }
-
-        // Quiz (AJOUT DU CHARGEMENT DE CONTENU)
-        function openPopup(day) {
-            const data = quizData.find(q => q.day == day);
-
-            if (!data) {
-                alert("Erreur: Contenu du quiz non trouvé pour le jour " + day);
-                return;
-            }
-
-            const contentElement = document.getElementById('popup-quiz-content');
-            let optionsHTML = data.options.map(opt => `
-                <label>
-                    <input type="radio" name="reponse" value="${opt.value}" required> 
-                    ${opt.text}
-                </label>
-            `).join('');
-
-            // Construction du contenu HTML du quiz
-            contentElement.innerHTML = `
-                <h4>${data.question}</h4>
-                <img src="${data.image}" alt="Image du jour ${data.day}">
-                <p>Veuillez répondre à la question et entrer votre email pour participer au tirage au sort !</p>
-
-                <form class="quiz-form" id="quiz-form-day-${data.day}" action="#" method="POST">
-                    <input type="hidden" name="day" value="${data.day}">
-                    <div class="quiz-options">
-                        ${optionsHTML}
-                    </div>
-
-                    <input type="email" name="email" placeholder="Votre adresse e-mail" required>
-                    
-                    <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off">
-
-                    <div class="rgpd-checkbox-container">
-                        <input type="checkbox" id="rgpd-day-${data.day}" name="rgpd" required>
-                        <label for="rgpd-day-${data.day}">J'accepte le <a href="#" onclick="openReglement(event)">règlement du jeu</a> et les conditions de traitement de mes données personnelles (RGPD).</label>
-                    </div>
-
-                    <button type="submit" class="btn-submit">Valider ma Réponse</button>
-                    <small>Une seule participation par jour et par adresse e-mail est autorisée.</small>
-                </form>
-            `;
-            
-            // Gestion de l'envoi du formulaire (simulé ici)
-            document.getElementById(`quiz-form-day-${data.day}`).addEventListener('submit', function(e) {
-                e.preventDefault();
-                simulateSubmission(data.day); // Fonction de simulation
-            });
-
-            document.getElementById('quiz-popup').classList.add('active');
-            console.log('Ouverture du quiz pour le jour:', day);
-        }
-
-        function closePopup() {
-            document.getElementById('quiz-popup').classList.remove('active');
-        }
-
-
-        // --- 3. LOGIQUE DU CALENDRIER ET DES PORTES ---
-
-        // SIMULATION de la soumission (à remplacer par votre code serveur)
-        function simulateSubmission(day) {
-            alert(`Réponse enregistrée pour le Jour ${day} ! (Ceci est une simulation. Intégrez votre code serveur ici.)`);
-            closePopup();
-            
-            // Met à jour la porte pour afficher le statut "submitted"
-            const door = document.getElementById(`day-${day}`);
-            if (door) {
-                door.classList.add('submitted');
-                const doorFront = door.querySelector('.door-front');
-                if (doorFront) {
-                    // Supprimer le numéro et afficher l'image de prévisualisation + texte
-                    doorFront.innerHTML = `
-                        <div class="submitted-content">
-                            <img src="${quizData.find(q => q.day == day).image}" class="submitted-preview-img" alt="Aperçu Jour ${day}">
-                            <small>RÉPONDU</small>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-
-        // Initialisation de l'état du calendrier et ajout des écouteurs d'événements
-        function initCalendar() {
-            const today = new Date();
-            // Définir l'année et le mois du calendrier de l'avent (ex: 2025, décembre=11)
-            const adventYear = today.getFullYear();
-            const adventMonth = 11; // Décembre est le mois 11 (0=Janvier)
-
-            const grid = document.getElementById('advent-calendar-grid');
-            const doors = [];
-
-            for (let i = 1; i <= 24; i++) {
-                const day = i;
-                const door = document.createElement('div');
-                door.className = 'door';
-                door.id = `day-${day}`;
-                door.setAttribute('data-day', day);
-
-                const doorInner = document.createElement('div');
-                doorInner.className = 'door-inner';
-                doorInner.innerHTML = `<div class="door-front">${day}</div><div class="door-back"></div>`;
-                door.appendChild(doorInner);
-                
-                // 1. Logique de VERROUILLAGE (Locked)
-                const doorDate = new Date(adventYear, adventMonth, day);
-                // Si la date de la porte est après AUJOURD'HUI, elle est verrouillée
-                if (doorDate.getTime() > today.getTime()) {
-                    door.classList.add('locked');
-                }
-                
-                // 2. Écouteur de clic (pour ouvrir la pop-up)
-                door.addEventListener('click', function() {
-                    if (!this.classList.contains('locked') && !this.classList.contains('submitted')) {
-                        openPopup(day);
-                    } else {
-                        // Optionnel: Afficher un message si la porte est verrouillée
-                        console.log(`Le jour ${day} est verrouillé ou déjà répondu.`);
-                    }
-                });
-
-                doors.push(door);
-                grid.appendChild(door);
-            }
-        }
-
-        // --- 4. EXÉCUTION AU CHARGEMENT DE LA PAGE ---
-        document.addEventListener('DOMContentLoaded', () => {
-            initCalendar();
-
-            // Fermeture des popups en cliquant à l'extérieur
-            document.getElementById('quiz-popup').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closePopup();
-                }
-            });
-
-            document.getElementById('reglement-popup').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeReglement();
-                }
-            });
-        });
-
-    </script>
+    <script src="qcm_data.js"></script>
+    <script src="calendrier.js"></script>
+    
+    <button onclick="resetCalendar()" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000; padding: 10px; background-color: var(--primary-marine); color: var(--accent-gold); border: 2px solid var(--accent-gold); cursor: pointer; border-radius: 5px; font-weight: bold;">
+        TEST: Reset Calendrier
+    </button>
 </body>
 </html>
