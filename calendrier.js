@@ -83,7 +83,7 @@ async function handleFormSubmit(e, data) {
         doorFront.innerHTML = `
             <div class="submitted-content">
                 <img src="${data.image}" alt="Aperçu jour ${data.day}" class="submitted-preview-img">
-                <small>✅ Répondu</small>
+                <small>Répondu</small>
             </div>
         `;
         
