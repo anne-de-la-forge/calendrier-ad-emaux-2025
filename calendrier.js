@@ -36,11 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 doorBack.innerHTML = `<img src="${data.image}" alt="Image du jour ${day}" style="width:100%; height:100%; object-fit:cover;">`;
             }
             
-            // Texte "Répondu" réduit
-            door.querySelector('.door-front').innerHTML = '✅ Répondu';
+            // Mise à jour du recto (Image d'aperçu et texte)
+            if (data) { 
+                const doorFront = door.querySelector('.door-front');
+                doorFront.innerHTML = `
+                    <div class="submitted-content">
+                        <img src="${data.image}" alt="Aperçu jour ${day}" class="submitted-preview-img">
+                        <small>✅ Répondu</small>
+                    </div>
+                `;
+            }
+            // Bloque le clic sur la porte, une seule fois !
             door.style.pointerEvents = 'none'; 
         }
-    });
 
     // FONCTION DE CLIC PRINCIPALE
     const doorClickHandler = function(e) {
@@ -203,7 +211,14 @@ document.addEventListener('DOMContentLoaded', () => {
             door.classList.add('submitted');
             
             // 1. Mise à jour du recto (texte "Répondu" réduit)
-            door.querySelector('.door-front').innerHTML = '✅ Répondu'; 
+           // 1. Mise à jour du recto (image en aperçu et texte discret)
+            const doorFront = door.querySelector('.door-front');
+            doorFront.innerHTML = `
+                <div class="submitted-content">
+                    <img src="${data.image}" alt="Aperçu jour ${data.day}" class="submitted-preview-img">
+                    <small>✅ Répondu</small>
+                </div>
+            `;
             
             // 2. Ajout de l'image au verso pour qu'elle s'affiche
             const doorBack = door.querySelector('.door-back');
