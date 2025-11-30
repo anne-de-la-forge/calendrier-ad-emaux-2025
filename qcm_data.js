@@ -90,7 +90,7 @@ const qcmData = [
         day: 8,
         title: "Le Métal Privilégié",
         question: "Quel métal est presque toujours utilisé comme support par Anne de la Forge pour l'émaillage chaud ?",
-        image: "Ecumes-pieces-aimantees-Anne-de-La-FORGE-copie.jpg",
+        image: "SOSSUVLEI-Anne-de-La-Forge.jpg",
         options: [
             { text: "A. L'aluminium", value: "A" },
             { text: "B. Le titane", value: "B" },
