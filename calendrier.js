@@ -34,19 +34,35 @@ async function submitToGSheet(dayNumber, userEmail, userResponse, isCorrect, rgp
 async function handleFormSubmit(e, data) {
     e.preventDefault();
     const form = e.target;
+    
+    // 1. RÉCUPÉRATION DES VALEURS DU FORMULAIRE
     const email = form.querySelector('input[name="email"]').value;
     const selectedOption = form.querySelector(`input[name="reponse_jour_${data.day}"]:checked`);
+    // 'rgpd' est un booléen : true si cochée, false si non cochée
     const rgpd = form.querySelector('input[name="rgpd_consent"]').checked;
-
-    // 2. LA VÉRIFICATION OBLIGATOIRE (Le code à ajouter)
-    if (!rgpdConsent.checked) {
+    
+    
+    // 2. VÉRIFICATIONS OBLIGATOIRES AVEC ALERTE JS
+    
+    // VÉRIFICATION 1 : RGPD OBLIGATOIRE
+    if (!rgpd) {
         alert("Veuillez cocher la case pour accepter d'être recontacté(e) et recevoir la newsletter afin de valider votre participation.");
-        return; // Stoppe l'exécution du reste de la fonction
+        return; // Arrête la fonction
     }
+    
+    // VÉRIFICATION 2 : RÉPONSE QCM OBLIGATOIRE
     if (!selectedOption) {
-        alert("Veuillez sélectionner une réponse.");
-        return;
+        alert("Veuillez sélectionner une réponse pour valider votre participation.");
+        return; // Arrête la fonction
     }
+
+    // VÉRIFICATION 3 : EMAIL OBLIGATOIRE
+    if (!email || email.trim() === '') {
+        alert("Veuillez entrer une adresse e-mail.");
+        return; // Arrête la fonction
+    }
+
+    // Le code continue ici si toutes les vérifications sont passées
     
     const hp = form.querySelector('input[name="hp_field"]').value;
     if (hp) {
