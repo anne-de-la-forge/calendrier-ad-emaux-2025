@@ -1,7 +1,7 @@
 // Fichier : qcm_data.js
 // Contient les données des 24 jours : Question, Options, Réponse, Image
 
-const qcmData = [
+window.qcmData = [
     {
         day: 1,
         title: "La Vague et le Mystère",
