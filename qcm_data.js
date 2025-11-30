@@ -138,7 +138,7 @@ window.qcmData = [
         day: 12,
         title: "Les Hautes Températures",
         question: "À quelle température (nécessaire à la fusion du verre et du métal) environ se fait la fusion de l'émail sur le cuivre ?",
-        image: "image-jour-13-email-avant-apres.jpg",
+        image: "ARCHIPEL-3-Anne-de-La-FORGE.jpg",
         options: [
             { text: "A. 400°C", value: "A" },
             { text: "B. 800°C", value: "B" },
@@ -234,7 +234,7 @@ window.qcmData = [
         day: 20,
         title: "Le Temps de Création",
         question: "Combien de temps faut-il pour créer une pièce d'émail unique et complexe chez AD Émaux ?",
-        image: "ARCHIPEL-Anne-de-La-Forge.jpg",
+        image: "ECUME-OCEAN-BLEU-3-panneaux®-Anne-de-La-Forge-scaled.jpg",
         options: [
             { text: "A. Quelques heures (grâce aux machines)", value: "A" },
             { text: "B. Quelques jours (pour les petites pièces)", value: "B" },
@@ -268,13 +268,13 @@ window.qcmData = [
     },
     {
         day: 23,
-        title: "Technique de Joaillerie",
-        question: "Avant de se consacrer à l'art mural, Anne de La Forge créait des bijoux en argent. Quel poinçon de joaillerie lui permettait d'apposer sa marque ?",
+        title: "Parcours d’Artiste",
+        question: "Avant de se consacrer à l’émaillage d’art, quelle profession exerçait Anne de la Forge ?",
         image: "image-jour-23-poincon-maitre.jpg",
         options: [
-            { text: "A. Le poinçon de garantie (métal précieux)", value: "A" },
-            { text: "B. Le poinçon de titre (pureté du métal)", value: "B" },
-            { text: "C. Son poinçon de maître (marque de l'artisan)", value: "C" }
+            { text: "A. Restauratrice de meubles anciens", value: "A" },
+            { text: "B. Juriste", value: "B" },
+            { text: "C. Architecte d'intérieure", value: "C" }
         ],
         correctAnswer: "C"
     },
@@ -282,9 +282,9 @@ window.qcmData = [
         day: 24,
         title: "Le Secret d'AD Émaux",
         question: "Quel est l'ingrédient secret qui garantit la valeur et l'authenticité de chaque pièce d'émail ?",
-        image: "Ecume-newpanneau3-detail-@Anne-de-La-Forge-mom.jpg",
+        image: "ECUME-OCEAN-BLEU-3-panneaux®-Anne-de-La-Forge-scaled.jpg",
         options: [
-            { text: "A. La production en série de bijoux", value: "A" },
+            { text: "A. La production en série", value: "A" },
             { text: "B. L'utilisation de la robotisation", value: "B" },
             { text: "C. Le temps et l'âme que l'artiste investit dans chaque pièce", value: "C" }
         ],
