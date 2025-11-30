@@ -163,27 +163,53 @@
             pointer-events: none; 
         }
         
-        /* STYLE POUR LA PORTE APRÈS SOUMISSION (Affiche l'image) */
-        .door.submitted .door-front {
-            background-color: var(--light-bg); 
-            color: var(--primary-marine);
-            border-color: var(--accent-gold);
-            font-size: 1.8em;
-            cursor: not-allowed;
-            line-height: 1.2;
-            padding: 5px; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            pointer-events: none; /* Toujours inactif après soumission */
-        }
-        .door.submitted .door-front img {
-            max-width: 80%;
-            max-height: 80%;
-            margin: 0 auto;
-            object-fit: contain;
-            border-radius: 4px;
+        /* NOUVEAU CODE DE REMPLACEMENT */
+        
+/* STYLE POUR LA PORTE APRÈS SOUMISSION (Affiche l'image) */
+.door.submitted .door-front {
+    background-color: var(--light-bg); 
+    color: var(--primary-marine);
+    border-color: var(--accent-gold);
+    font-size: 1.8em; 
+    cursor: not-allowed;
+    line-height: 1.2;
+    padding: 5px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; /* Toujours inactif après soumission */
+}
+
+/* 1. Style du conteneur pour centrer image et texte */
+.door.submitted .door-front .submitted-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 2. Style de l'image (l'aperçu) */
+.door.submitted .door-front .submitted-preview-img {
+    max-width: 90%; 
+    max-height: 90%;
+    width: 80px; /* Taille spécifique pour l'aperçu */
+    height: 80px;
+    object-fit: cover; /* Recadre pour remplir la zone (aperçu) */
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px;
+}
+
+/* 3. Style du texte "Répondu" (le rendre discret) */
+.door.submitted .door-front small {
+    font-size: 0.7em; /* Texte plus petit */
+    font-weight: 700;
+    color: var(--primary-marine); /* Couleur marine */
+    display: block;
+}
         }
 
         .door.locked {
