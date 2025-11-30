@@ -102,8 +102,6 @@ async function handleFormSubmit(e, data) {
         // door.style.pointerEvents = 'none'; 
     }
 
-    // calendrier.js (NOUVEAU CODE DE REMPLACEMENT)
-
     // --- NOUVEAU CODE POUR L'AFFICHAGE DU MESSAGE (Remplacement des alertes) ---
     
     // 1. Trouver la réponse correcte textuelle
