@@ -327,42 +327,65 @@
              color: #666;
         }
 
-        /* SECTION ATELIER (Nouvelle Section) */
+      /* SECTION ATELIER (Gestion de l'image et du texte côte à côte) */
         .differentiation-section {
             background-color: var(--light-bg);
             padding: 4rem 0;
             text-align: center;
         }
-        .differentiation-section h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--primary-marine);
-            font-size: 2.2em;
-            margin-bottom: 1rem;
-            position: relative;
-            text-transform: uppercase;
-        }
-        .differentiation-section h2::after {
-            content: '';
-            display: block;
-            width: 100px;
-            height: 2px;
-            background-color: var(--accent-gold);
-            margin: 10px auto 0;
-        }
+        
         .differentiation-section .content-box {
             background-color: var(--white);
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: left;
             margin-top: 2rem;
             line-height: 1.8;
+            
+            /* 🔑 CLÉ 1 : Flexbox pour aligner Image et Texte */
+            display: flex; 
+            gap: 20px; /* Espace entre les deux colonnes */
+            align-items: stretch; /* Les colonnes s'étirent à la même hauteur */
+            text-align: left; 
         }
+
+        /* 🔑 CLÉ 2 : Style de l'Image */
+        .differentiation-section .atelier-image {
+            width: 35%; /* L'image prend 35% de la largeur */
+            height: 100%; /* L'image prend la hauteur du texte */
+            
+            /* 🔑 CLÉ 3 : Rogner l'image si nécessaire */
+            object-fit: cover; 
+            
+            border-radius: 4px; 
+            min-width: 150px; 
+        }
+        
+        /* 🔑 CLÉ 4 : Style du Contenu Textuel */
+        .differentiation-section .text-content {
+            width: 65%; /* Le texte prend 65% de la largeur */
+            flex-grow: 1; 
+        }
+        
+        /* Styles pour les paragraphes */
         .differentiation-section .content-box p {
             margin-bottom: 15px;
         }
-        .differentiation-section .content-box strong {
-            color: var(--primary-marine);
+
+        /* AJUSTEMENT POUR MOBILE (pour que les éléments s'empilent) */
+        @media (max-width: 768px) {
+            .differentiation-section .content-box {
+                flex-direction: column; /* Passe en mode empilement vertical */
+                align-items: center; 
+            }
+            .differentiation-section .atelier-image,
+            .differentiation-section .text-content {
+                width: 100%; 
+                height: auto;
+            }
+            .differentiation-section .atelier-image {
+                max-height: 300px;
+            }
         }
 
 
@@ -697,22 +720,24 @@
         </div>
     </section>
 
-    <section class="differentiation-section">
-        <div class="container">
-            <h2>L'Emotion par la matière</h2>
-            <div class="content-box">
-            Dans mon atelier troglodyte niché au cœur d’un patrimoine du Parc Naturel de l’Oise, j’aime danser avec le feu et la matière.
-Animée d’une curiosité insatiable, c’est peut être au cœur de ma terre natale, l’Afrique équatoriale,  que se sont exacerbés mes sens et mon imaginaire.
-De mon enfance bercée chaque soir par la voix d’un conteur, je garde le goût des histoires. Aujourd’hui je les raconte avec des émaux d’orfèvre.
-Mon travail est enrichi de 20 années de rencontres et d’expériences acquises au fil d’un parcours dans différents domaines liés à la créativité : architecture d’intérieur, design, infographie et peinture.
-Je vitrifie à haute température de la poudre de cristal sur un métal pur, le cuivre.
-Traditionnellement mis en œuvre sur des pièces d’orfèvrerie, j’ai choisi de mettre en scène ces émaux joailliers dans l’espace intérieur,  à travers des créations architecturales et décoratives.
-La matière, ainsi libérée, s’offre pleinement au regard et l’invite à plonger dans la profondeur de ses lumineuses couleurs cristallines.
-Chaque création, unique, est une invitation vers un voyage imaginaire .
+   <section class="differentiation-section">
+    <div class="container">
+        <h2>L'Émotion par la matière</h2> 
+        <div class="content-box">
+            
+            <img src="anne-de-La-Forge-emailleur-sur-meta©Marion-Saupin.jpg" 
+                 alt="Anne de La Forge, Artisan Émailleur" 
+                 class="atelier-image">
+            
+            <div class="text-content">
+                <p>Dans mon atelier troglodyte niché au cœur d’un patrimoine du Parc Naturel de l’Oise, j’aime danser avec le feu et la matière. Animée d’une curiosité insatiable, c’est peut être au cœur de ma terre natale, l’Afrique équatoriale, que se sont exacerbés mes sens et mon imaginaire. De mon enfance bercée chaque soir par la voix d’un conteur, je garde le goût des histoires. Aujourd’hui je les raconte avec des émaux d’orfèvre.</p>
+                <p>Mon travail est enrichi de 20 années de rencontres et d’expériences acquises au fil d’un parcours dans différents domaines liés à la créativité : architecture d’intérieur, design, infographie et peinture. Je vitrifie à haute température de la poudre de cristal sur un métal pur, le cuivre.</p>
+                <p>Traditionnellement mis en œuvre sur des pièces d’orfèvrerie, j’ai choisi de mettre en scène ces émaux joailliers dans l’espace intérieur, à travers des créations architecturales et décoratives. La matière, ainsi libérée, s’offre pleinement au regard et l’invite à plonger dans la profondeur de ses lumineuses couleurs cristallines. Chaque création, unique, est une invitation vers un voyage imaginaire.</p>
             </div>
         </div>
-    </section>
-
+    </div>
+</section>
+    
     <footer>
         <div class="container">
             <div class="footer-links">
