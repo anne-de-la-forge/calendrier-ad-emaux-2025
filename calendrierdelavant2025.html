@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier de l'Avent - AD Émaux</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Définition de la palette basée sur la capture d'écran */
+        :root {
+            --primary-marine: #2a3b5c; /* Bleu Marine (Header, Footer, Accent Principal) */
+            --accent-gold: #c7a36e; /* Doré/Beige clair (Lignes, Boutons, Numéros) */
+            --white: #FFF;
+            --light-bg: #F7F7F7; /* Fond clair principal */
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        /* BANDEAU SUPÉRIEUR (Réduit) */
+        .top-bar {
+            background-color: var(--primary-marine);
+            color: var(--white);
+            padding: 0.3rem 0; /* Réduction du padding */
+            font-size: 0.85em;
+            text-align: center;
+        }
+        .top-bar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .top-bar-content a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        /* HEADER & HERO SECTION (Allégé) */
+        .hero-header {
+            background-image: url('1444x920_decorated-christmas-tree-on-blurred-background.webp');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 5rem 0 3rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+        .hero-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5); 
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .hero-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+            text-shadow: 2px 2px 4px var(--primary-marine);
+        }
+        /* Style pour la phrase en italique */
+        .hero-header p {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        .hero-header .note-reglement { /* Nouvelle classe pour la note */
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 15px;
+            display: block;
+        }
+        /* Style pour le lien "règlement" dans la note */
+        .hero-header .note-reglement a {
+             color: inherit;
+             text-decoration: underline;
+             cursor: pointer;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-marine);
+            color: var(--white);
+            padding: 0.75rem 2rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s;
+            border: 2px solid var(--accent-gold);
+        }
+        .cta-button:hover {
+            background-color: #3f5581;
+        }
+
+        /* CALENDAR GRID */
+        .advent-calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+            padding: 2rem 0;
+            background-color: var(--light-bg);
+            position: relative; 
+            z-index: 10;      
+        }
+        
+        /* Styles des Portes (QCM) */
+        .door {
+            position: relative;
+            z-index: 50; 
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+        .door-inner {
+            width: 100%; height: 100%;
+            position: relative;
+        }
+        .door-front, .door-back {
+            position: absolute;
+            width: 100%; height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .door-front {
+            background-color: var(--primary-marine);
+            color: var(--accent-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            font-weight: bold;
+            border: 4px solid var(--accent-gold);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            pointer-events: none; 
+        }
+        
+        /* STYLE POUR LA PORTE APRÈS SOUMISSION (Affiche l'image) */
+        .door.submitted .door-front {
+            background-color: var(--light-bg); 
+            color: var(--primary-marine);
+            border-color: var(--accent-gold);
+            font-size: 1.8em;
+            cursor: not-allowed;
+            line-height: 1.2;
+            padding: 5px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none; /* Toujours inactif après soumission */
+        }
+        .door.submitted .door-front img {
+            max-width: 80%;
+            max-height: 80%;
+            margin: 0 auto;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .door.locked {
+            filter: grayscale(80%);
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .door-back {
+            display: none; 
+            transform: none; 
+        }
+        
+        .quiz-options label {
+            display: block;
+            text-align: left;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .honeypot {
+            display: none !important;
+            visibility: hidden;
+            height: 0;
+            width: 0;
+        }
+        
+        /* --- STYLES POUR LA POP-UP DU QUIZ --- */
+        .door-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+        .door-overlay.active {
+            display: flex;
+        }
+        .door-popup-content {
+            background-color: var(--white);
+            color: var(--text-color);
+            width: 90%;
+            max-width: 650px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+        #popup-quiz-content h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-marine);
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+        #popup-quiz-content img {
+            max-width: 80%;
+            height: auto;
+            display: block;
+            margin: 0.5rem auto 1rem;
+            border-radius: 4px;
+        }
+        #popup-quiz-content .quiz-form input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid var(--primary-marine);
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        #popup-quiz-content .quiz-form .btn-submit {
+            display: block;
+            width: 100%;
+            background-color: var(--accent-gold);
+            color: var(--primary-marine);
+            padding: 0.75rem;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        #popup-quiz-content .btn-submit:hover {
+            opacity: 0.9;
+        }
+        #popup-quiz-content .rgpd-checkbox-container {
+            text-align: left;
+            font-size: 0.85em;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        #popup-quiz-content .rgpd-checkbox-container input {
+            margin-right: 5px;
+        }
+        #popup-quiz-content .quiz-options {
+            text-align: left;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        #popup-quiz-content small {
+             display: block;
+             margin-top: 10px;
+             color: #666;
+        }
+
+        /* SECTION ATELIER (Nouvelle Section) */
+        .differentiation-section {
+            background-color: var(--light-bg);
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .differentiation-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-marine);
+            font-size: 2.2em;
+            margin-bottom: 1rem;
+            position: relative;
+            text-transform: uppercase;
+        }
+        .differentiation-section h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 2px;
+            background-color: var(--accent-gold);
+            margin: 10px auto 0;
+        }
+        .differentiation-section .content-box {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: left;
+            margin-top: 2rem;
+            line-height: 1.8;
+        }
+        .differentiation-section .content-box p {
+            margin-bottom: 15px;
+        }
+        .differentiation-section .content-box strong {
+            color: var(--primary-marine);
+        }
+
+
+        /* FOOTER */
+        footer {
+            background-color: var(--primary-marine);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: var(--accent-gold);
+            text-decoration: none;
+        }
+        .footer-links a {
+            margin: 0 10px;
+        }
+        .footer-links {
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 15px;
+        }
+        .social-links {
+            margin-bottom: 10px;
+        }
+        /* Style des icônes SVG */
+        .social-links svg {
+            fill: var(--accent-gold);
+            height: 24px; /* Taille légèrement augmentée */
+            width: 24px;
+            margin: 0 10px;
+            transition: fill 0.3s;
+        }
+        .social-links a:hover svg {
+            fill: var(--white);
+        }
+        .mention-links a {
+            color: rgba(255, 255, 255, 0.6); /* Couleur plus discrète */
+            margin: 0 10px;
+            font-size: 0.8em;
+        }
+        .mention-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Styles pour la pop-up du Règlement (Overlay) */
+        .reglement-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+        .reglement-overlay.active {
+            display: flex;
+        }
+        .reglement-content {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 30px;
+            font-weight: bold;
+            color: var(--primary-marine);
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .close-btn:hover {
+            color: var(--accent-gold);
+        }
+        /* Style pour les petits titres du règlement */
+        .reglement-content h4 {
+            color: var(--primary-marine);
+            font-family: 'Playfair Display', serif;
+            border-bottom: 1px solid var(--accent-gold);
+            padding-bottom: 5px;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <span>+33 06 21 51 64 52 | contact@ad-emaux.fr</span>
+            <a href="https://ad-emaux.fr/">ad-emaux.fr</a>
+        </div>
+    </div>
+
+    <header class="hero-header">
+        <div class="container hero-content">
+            <h1>Calendrier de l'Avent AD Émaux</h1>
+            
+            <p>24 jours pour percer les secrets de l'émail d'art et tenter de gagner une pièce unique sur mesure.</p>
+            
+            <span class="note-reglement">
+                *<em>D'une valeur indicative de 50€ (voir <a href="#" onclick="openReglement()">règlement</a>).</em>
+            </span>
+            <a href="https://ad-emaux.fr/contact/" class="cta-button">Prenez rendez-vous à l'atelier de Gouvieux</a>
+        </div>
+    </header>
+
+    <section class="advent-calendar-section">
+        <div class="container advent-calendar-grid">
+            
+            <div class="door" data-day="1" id="day-1">
+                <div class="door-inner">
+                    <div class="door-front">1</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+
+            <div class="door" data-day="2" id="day-2">
+                <div class="door-inner">
+                    <div class="door-front">2</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="3" id="day-3">
+                <div class="door-inner">
+                    <div class="door-front">3</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="4" id="day-4">
+                <div class="door-inner">
+                    <div class="door-front">4</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="5" id="day-5">
+                <div class="door-inner">
+                    <div class="door-front">5</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="6" id="day-6">
+                <div class="door-inner">
+                    <div class="door-front">6</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="7" id="day-7">
+                <div class="door-inner">
+                    <div class="door-front">7</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="8" id="day-8">
+                <div class="door-inner">
+                    <div class="door-front">8</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="9" id="day-9">
+                <div class="door-inner">
+                    <div class="door-front">9</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="10" id="day-10">
+                <div class="door-inner">
+                    <div class="door-front">10</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="11" id="day-11">
+                <div class="door-inner">
+                    <div class="door-front">11</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="12" id="day-12">
+                <div class="door-inner">
+                    <div class="door-front">12</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="13" id="day-13">
+                <div class="door-inner">
+                    <div class="door-front">13</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="14" id="day-14">
+                <div class="door-inner">
+                    <div class="door-front">14</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="15" id="day-15">
+                <div class="door-inner">
+                    <div class="door-front">15</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="16" id="day-16">
+                <div class="door-inner">
+                    <div class="door-front">16</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="17" id="day-17">
+                <div class="door-inner">
+                    <div class="door-front">17</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="18" id="day-18">
+                <div class="door-inner">
+                    <div class="door-front">18</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="19" id="day-19">
+                <div class="door-inner">
+                    <div class="door-front">19</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="20" id="day-20">
+                <div class="door-inner">
+                    <div class="door-front">20</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="21" id="day-21">
+                <div class="door-inner">
+                    <div class="door-front">21</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="22" id="day-22">
+                <div class="door-inner">
+                    <div class="door-front">22</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="23" id="day-23">
+                <div class="door-inner">
+                    <div class="door-front">23</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="24" id="day-24">
+                <div class="door-inner">
+                    <div class="door-front">24</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+            <div class="door" data-day="25" id="day-25">
+                <div class="door-inner">
+                    <div class="door-front">25</div>
+                    <div class="door-back"></div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section class="differentiation-section">
+        <div class="container">
+            <h2>L'Atelier d'Anne de La Forge</h2>
+            <div class="content-box">
+                <p><strong>L'émail, une fusion unique :</strong> L'émail sur cuivre est une technique d'artisanat d'art où la poudre de verre est vitrifiée sur un support métallique à très haute température (environ 800°C). Cette fusion crée une surface vitreuse, inaltérable, et d'une brillance profonde qui ne peut être reproduite par d'autres moyens.</p>
+                <p><strong>L'art de la patience et de la précision :</strong> Chaque pièce d'AD Émaux est unique. Elle exige de multiples couches successives de poudres et de cuissons, nécessitant un savoir-faire précis et une capacité à anticiper les réactions chimiques de la couleur sous l'effet de la chaleur. Ce processus manuel garantit l'authenticité et la valeur émotionnelle de chaque œuvre.</p>
+                <p><strong>Co-création et dialogue :</strong> L'approche d'AD Émaux s'étend au-delà du seul émail. Nous collaborons régulièrement avec d'autres artisans d'art (ébénistes, verriers, passementiers) pour créer des pièces de mobilier ou des luminaires, fusionnant ainsi les matières et les compétences pour des créations d'intérieur exceptionnelles.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://ad-emaux.fr/contact/">Contact & Rendez-vous</a> | 
+                <a href="https://ad-emaux.fr/collections/">Collections</a> |
+                <a href="#" onclick="openReglement()">Règlement du Jeu</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/ad_emaux/" target="_blank">
+                    <svg viewBox="0 0 448 512"><path d="M224.1 141c-30.7 0-55.6 24.9-55.6 55.6v89.4c0 30.7 24.9 55.6 55.6 55.6s55.6-24.9 55.6-55.6v-89.4c0-30.7-24.9-55.6-55.6-55.6zm100.8 19.3c-2.3-13.4-13.7-24.8-27.1-27.1-4.7-.8-9.4-1.2-14.2-1.2h-74.9c-4.8 0-9.5.4-14.2 1.2-13.4 2.3-24.8 13.7-27.1 27.1-.8 4.7-1.2 9.4-1.2 14.2v89.4c0 4.8.4 9.5 1.2 14.2 2.3 13.4 13.7 24.8 27.1 27.1 4.7.8 9.4 1.2 14.2 1.2h74.9c4.8 0 9.5-.4 14.2-1.2 13.4-2.3 24.8-13.7 27.1-27.1.8-4.7 1.2-9.4 1.2-14.2v-89.4c0-4.8-.4-9.5-1.2-14.2zM224.1 352c-47.5 0-85.9-38.4-85.9-85.9s38.4-85.9 85.9-85.9 85.9 38.4 85.9 85.9-38.4 85.9-85.9 85.9zm130.6-218.4c-9.5 0-17.1-7.7-17.1-17.1s7.7-17.1 17.1-17.1 17.1 7.7 17.1 17.1-7.7 17.1-17.1 17.1zM448 180.7v150.5c0 41.5-33.6 75.1-75.1 75.1H75.1c-41.5 0-75.1-33.6-75.1-75.1V180.7c0-41.5 33.6-75.1 75.1-75.1h297.8c41.5 0 75.1 33.6 75.1 75.1zM383.6 137.2c-1.3-1.3-3.1-2.1-5-2.1H70.7c-1.9 0-3.7.8-5 2.1-1.3 1.3-2.1 3.1-2.1 5v242.4c0 1.9.8 3.7 2.1 5 1.3 1.3 3.1 2.1 5 2.1h307.9c1.9 0 3.7-.8 5-2.1 1.3-1.3 2.1-3.1 2.1-5V142.2c0-1.9-.8-3.7-2.1-5z"/></svg>
+                </a>
+                <a href="https://www.facebook.com/ad.emaux/" target="_blank">
+                    <svg viewBox="0 0 512 512"><path d="M504 256C504 114.6 397.4 8 256 8S8 114.6 8 256c0 130.7 104 237.4 239.5 247.3V342.5h-59.4V256h59.4v-42c0-58.8 35.8-91.8 89.4-91.8 25.4 0 47.2 2.2 53.6 3.1v61.5h-36.8c-28.7 0-34.3 13.8-34.3 33.9V256h68.8l-9.1 86.5h-59.7V503.3C399 493.4 504 386.7 504 256z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/anne-de-la-forge-a423a23b/" target="_blank">
+                    <svg viewBox="0 0 448 512"><path d="M416 32H32C14.3 32 0 46.3 0 64v384c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32zM128 416H64V192h64v224zM96 160c-25.9 0-47.5-21.4-47.5-47.7 0-26.3 21.6-47.7 47.5-47.7s47.5 21.4 47.5 47.7c0 26.3-21.6 47.7-47.5 47.7zm320 256h-64V272c0-17.7-14.3-32-32-32s-32 14.3-32 32v144h-64V192h64v32.6c11.9-18.4 30.5-32.6 51.5-32.6 37.1 0 67.5 30.4 67.5 67.5v150.5z"/></svg>
+                </a>
+            </div>
+            <div class="mention-links">
+                &copy; 2024 AD Émaux - Tous droits réservés. | 
+                <a href="#">Mentions Légales</a> | 
+                <a href="#">Politique de Confidentialité</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <div class="door-overlay" id="door-overlay" onclick="closePopupIfClickedOutside(event)">
+        <div class="door-popup-content">
+            <a href="#" class="close-btn" onclick="closePopup()">&times;</a>
+            <div id="popup-quiz-content">
+                </div>
+        </div>
+    </div>
+    
+    <div class="reglement-overlay" id="reglement-overlay" onclick="closeReglementIfClickedOutside(event)">
+        <div class="reglement-content">
+            <a href="#" class="close-btn" onclick="closeReglement()">&times;</a>
+            <h3>Règlement du Jeu Concours "Calendrier de l'Avent AD Émaux 2024"</h3>
+
+            <h4>Article 1 : Organisation</h4>
+            <p>Le jeu concours est organisé par Anne de La Forge - AD Émaux, artisan d'art émailleur sur cuivre, pour la période du 1er au 24 décembre 2024.</p>
+
+            <h4>Article 2 : Conditions de participation</h4>
+            <p>Le jeu est ouvert à toute personne majeure résidant en France métropolitaine, à l'exception des employés de l'organisateur. La participation est limitée à une réponse par jour et par adresse e-mail. Les réponses aux questions sont validées en ligne via le formulaire dédié.</p>
+
+            <h4>Article 3 : Principe du jeu</h4>
+            <p>Du 1er au 24 décembre, une question relative à l'univers d'AD Émaux et de l'art de l'émail est révélée. Pour participer au tirage au sort final, les participants doivent répondre à une question de type QCM et fournir leur adresse e-mail. **Seules les bonnes réponses sont prises en compte pour le tirage au sort final.**</p>
+
+            <h4>Article 4 : Date du jeu</h4>
+            <p>Le jeu se déroule du 1er au 24 décembre 2024. Toutes les participations doivent être enregistrées avant le 24 décembre à minuit.</p>
+
+            <h4>Article 5 : Dotation</h4>
+            <p>Le lot unique à gagner est une pièce d'art émaillée sur cuivre unique, d'une valeur marchande indicative de 50€. Ce lot ne peut être ni échangé contre sa valeur monétaire, ni remplacé par un autre lot. La mention de la valeur indicative de 50€ est ajoutée au présent règlement.</p>
+
+            <h4>Article 6 : Désignation du gagnant</h4>
+            <p>Le tirage au sort sera effectué le 25 décembre 2025 à 10h, parmi l'ensemble des participations enregistrées (bonnes réponses). Le gagnant sera contacté par e-mail dans les 48 heures suivant le tirage au sort et son nom sera affiché sur la case du 25 du Calendrier de l'Avent.</p>
+
+            <h4>Article 7 : Protection des données personnelles</h4>
+            <p>Les adresses e-mail collectées seront utilisées uniquement pour la gestion du jeu, la notification du gagnant, et l'envoi d'une newsletter d'AD Émaux **si le participant a donné son consentement explicite via la case à cocher**. Conformément à la loi Informatique et Libertés, les participants disposent d'un droit d'accès, de rectification et de suppression de leurs données.</p>
+        </div>
+    </div>
+
+
+    <script src="qcm_data.js"></script>
+    <script src="calendrier.js"></script>
+    
+    <button onclick="resetCalendar()" style="position: fixed; bottom: 10px; right: 10px; z-index: 1000; padding: 10px; background-color: var(--primary-marine); color: var(--accent-gold); border: 2px solid var(--accent-gold); cursor: pointer; border-radius: 5px; font-weight: bold;">
+        TEST: Reset Calendrier
+    </button>
+</body>
+</html>
