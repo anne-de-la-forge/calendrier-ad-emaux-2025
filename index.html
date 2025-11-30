@@ -490,6 +490,66 @@
             padding-bottom: 5px;
             margin-top: 1.5rem;
         }
+        <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier de l'Avent des Émaux</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Définition de la palette basée sur la capture d'écran */
+        :root {
+            --primary-marine: #2a3b5c; /* Bleu Marine (Header, Footer, Accent Principal) */
+            --accent-gold: #c7a36e; /* Doré/Beige clair (Lignes, Boutons, Numéros) */
+            --white: #FFF;
+            --light-bg: #F7F7F7; /* Fond clair principal */
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            line-height: 1.6;
+        }
+
+        .container {
+            /* ... (le reste de votre CSS existant) ... */
+        }
+        
+        /* ================================================= */
+        /* 🛑 CORRECTION BUG : Cases et Liens non cliquables 🛑 */
+        /* (Ajouter ce bloc juste avant </style>)            */
+        /* ================================================= */
+
+        /* 1. Neutraliser les éléments de progression/chargement suspects */
+        /* Ces éléments (photos-ui-progress-view) sont identifiés dans votre code 
+           comme bloquant toute la page s'ils ne sont pas masqués. */
+        .photos-ui-progress-view,
+        .safe-area-observer {
+            /* 💥 SOLUTION PRINCIPALE : Retirer l'élément du rendu pour libérer les clics */
+            display: none !important; 
+            
+            /* Sécurité additionnelle : empêche les clics d'être interceptés par un élément invisible */
+            pointer-events: none !important;
+        }
+
+        /* 2. S'assurer que les modales du calendrier sont bien masquées 
+           lorsqu'elles ne sont pas actives (gérées par votre fichier calendrier.js) */
+        #door-overlay, 
+        #reglement-overlay {
+            display: none; 
+        }
+
+        /* 3. L'état actif (quand le JS ajoute la classe 'active') rend la modale visible */
+        #door-overlay.active,
+        #reglement-overlay.active {
+            display: flex; /* ou block, selon votre mise en page */
+            pointer-events: auto; /* Autorise les clics à l'intérieur de la modale elle-même */
+        }
     </style>
 </head>
 <body>
