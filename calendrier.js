@@ -296,10 +296,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3. Ajout des écouteurs de clic
         door.addEventListener('click', doorClickHandler);
-    });// -------------------------------------------------------------------------
-// FONCTIONS GLOBALES (À placer à la fin du fichier, après le bloc DOMContentLoaded)
-// -------------------------------------------------------------------------
-
+    });
+    
 // FONCTIONS MODALES PRINCIPALES
 window.closePopup = function() {
     document.getElementById('door-overlay').classList.remove('active');
