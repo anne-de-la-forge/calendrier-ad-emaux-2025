@@ -324,4 +324,16 @@ document.addEventListener('DOMContentLoaded', () => {
             location.reload();
         }
     };
-});
+    
+// Fonctionnalité Pop-up d'Information RGPD
+    window.openGdprInfo = function() {
+        document.getElementById('gdpr-info-overlay').classList.add('active');
+    };
+
+    // Fonction appelée par le bouton "J'ai compris"
+    window.acceptGdprInfo = function() {
+        // Enregistrer l'acceptation (pour ne pas rouvrir si on garde le localStorage)
+        localStorage.setItem('hasAcceptedGdprInfo', 'true'); 
+        // Fermer la modale
+        document.getElementById('gdpr-info-overlay').classList.remove('active');
+    };
