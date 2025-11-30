@@ -1,16 +1,15 @@
-// VERSION ALTERNATIVE DE CALENDRIER.JS
-// Cette version ajoute onclick directement aux portes si addEventListener ne fonctionne pas
+// ═══════════════════════════════════════════════════════════════════════════════
+// CALENDRIER DE L'AVENT AD ÉMAUX - TOUTES PORTES OUVERTES
+// ═══════════════════════════════════════════════════════════════════════════════
 
-// ------------------------------------------------------------------------------------------------------
-// ⚠️ IMPORTANT : REMPLACEZ CETTE CHAÎNE PAR L'URL DE DÉPLOIEMENT DE VOTRE APPS SCRIPT (Web App URL)
-// ------------------------------------------------------------------------------------------------------
 const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWrdi9dEkmfFFgSnLRYuJpEgM-oTB3Zq3Z6WVrrvV3MgSUo-qtZXpN976-A4iAOcBs/exec'; 
 
-console.log("Script Calendrier AD Émaux chargé.");
+console.log("🎄 Calendrier de l'Avent AD Émaux chargé");
 
-// =======================================================================================================
-// 1. FONCTIONS DE TRAITEMENT (Envoi de données, Soumission de formulaire)
-// =======================================================================================================
+// ═══════════════════════════════════════════════════════════════════════════════
+// FONCTIONS DE TRAITEMENT (NE PAS TOUCHER - Ça marche déjà)
+// ═══════════════════════════════════════════════════════════════════════════════
+
 async function submitToGSheet(dayNumber, userEmail, userResponse, isCorrect, rgpdConsent) {
     const formData = new FormData();
     formData.append('dayNumber', dayNumber);
@@ -26,7 +25,6 @@ async function submitToGSheet(dayNumber, userEmail, userResponse, isCorrect, rgp
             body: formData
         });
         return { success: true };
-
     } catch (error) {
         console.error("Erreur lors de l'envoi des données à Google Sheets :", error);
         return { success: false, error: error.message };
@@ -45,43 +43,34 @@ async function handleFormSubmit(e, data) {
         return;
     }
     
-    // Honeypot check
     const hp = form.querySelector('input[name="hp_field"]').value;
     if (hp) {
         console.warn("Honeypot activé. Soumission ignorée.");
         return; 
     }
 
-
     const userResponse = selectedOption.value;
     const isCorrect = (userResponse === data.correctAnswer);
 
-    // --- GESTION DE L'ATTENTE ---
     const submitBtn = form.querySelector('.btn-submit');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Envoi en cours...';
 
-    // --- APPEL DE LA FONCTION D'ENVOI AU GSHEET ---
     const submissionResult = await submitToGSheet(data.day, email, userResponse, isCorrect, rgpd);
     
-    // Rétablir le bouton
     submitBtn.disabled = false;
     submitBtn.textContent = 'Je valide et participe';
-
 
     if (!submissionResult.success) {
         alert("Une erreur de connexion est survenue. Votre participation n'a peut-être pas été enregistrée. Veuillez réessayer.");
         return; 
     }
 
-    // --- SUCCÈS : GESTION LOCALE ET VISUELLE ---
-
     localStorage.setItem(`door_${data.day}_submitted`, 'true');
     const door = document.getElementById(`day-${data.day}`);
     if (door) {
         door.classList.add('submitted');
         
-        // Mise à jour du recto (Image d'aperçu et texte discret)
         const doorFront = door.querySelector('.door-front');
         doorFront.innerHTML = `
             <div class="submitted-content">
@@ -90,13 +79,10 @@ async function handleFormSubmit(e, data) {
             </div>
         `;
         
-        // Ajout de l'image au verso pour qu'elle s'affiche (pour le flip, si actif)
         const doorBack = door.querySelector('.door-back');
         doorBack.innerHTML = `<img src="${data.image}" alt="Image du jour ${data.day}" style="width:100%; height:100%; object-fit:cover;">`;
     }
 
-    // --- AFFICHAGE DU MESSAGE DE CONFIRMATION (plus besoin d'alert() séparé) ---
-    
     const correctAnswerValue = data.correctAnswer;
     const correctOption = data.options.find(opt => opt.value === correctAnswerValue);
     const correctAnswerText = correctOption ? correctOption.text : 'Réponse non trouvée'; 
@@ -118,7 +104,6 @@ async function handleFormSubmit(e, data) {
         `;
     }
 
-    // Remplacer le contenu du quiz par le message de confirmation
     mainPopupContent.innerHTML = `
         <a href="#" class="close-btn" onclick="closePopup()" style="position: absolute; top: 15px; right: 25px;">&times;</a>
         <div style="padding: 40px; text-align: center;">
@@ -128,16 +113,14 @@ async function handleFormSubmit(e, data) {
     `;
 }
 
-
-// =======================================================================================================
-// 2. FONCTIONS DE POP-UP
-// =======================================================================================================
+// ═══════════════════════════════════════════════════════════════════════════════
+// FONCTIONS DE POP-UP (NE PAS TOUCHER - Ça marche déjà)
+// ═══════════════════════════════════════════════════════════════════════════════
 
 function openPopupWithData(data) {
     const popupContent = document.getElementById('popup-quiz-content');
     const overlay = document.getElementById('door-overlay');
 
-    // --- GESTION SIMPLIFIÉE ET INTÉGRÉE DU JOUR 25 ---
     if (data.day === 25) {
         popupContent.innerHTML = `
             <a href="#" class="close-btn" onclick="closePopup()">&times;</a>
@@ -162,9 +145,7 @@ function openPopupWithData(data) {
         overlay.classList.add('active');
         return; 
     }
-    // Fin de la gestion Jour 25
     
-    // --- GESTION JOURS 1 À 24 (QCM) ---
     let optionsHTML = '';
     data.options.forEach((opt) => {
         optionsHTML += `
@@ -206,31 +187,32 @@ function openPopupWithData(data) {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// FONCTION DE CLIC - NOUVELLE VERSION QUI FONCTIONNE
+// ═══════════════════════════════════════════════════════════════════════════════
 
-// =======================================================================================================
-// 3. FONCTION DE CLIC PRINCIPALE - VERSION GLOBALE POUR ONCLICK
-// =======================================================================================================
 window.handleDoorClick = function(day) {
-    console.log('🚪 Clic sur la porte ' + day);
+    console.log(`🚪 Clic sur la porte ${day}`);
     
     const doorElement = document.getElementById(`day-${day}`);
     
     if (!doorElement) {
-        console.error('❌ Porte introuvable : day-' + day);
+        console.error(`❌ Porte introuvable : day-${day}`);
         return;
     }
     
     if (doorElement.classList.contains('locked')) {
-        console.log('🔒 Porte verrouillée');
+        console.log(`🔒 Porte ${day} verrouillée`);
+        alert(`Cette porte s'ouvrira le ${day} décembre ! 🎄`);
         return;
     }
     
     if (doorElement.classList.contains('submitted')) {
-        console.log('✅ Déjà soumise');
+        console.log(`✅ Porte ${day} déjà soumise`);
+        alert('Vous avez déjà participé à ce jour ! 😊');
         return;
     }
 
-    // Récupération des données
     if (typeof qcmData === 'undefined') {
         console.error('❌ qcmData non chargé !');
         alert('Erreur: Les données du quiz ne sont pas chargées. Rechargez la page.');
@@ -240,42 +222,37 @@ window.handleDoorClick = function(day) {
     const data = qcmData.find(d => d.day === day);
 
     if (data) {
-        console.log('✅ Données trouvées pour le jour ' + day);
+        console.log(`✅ Ouverture de la porte ${day}`);
         openPopupWithData(data);
     } else {
-        console.error("❌ Aucune donnée trouvée pour le jour " + day);
+        console.error(`❌ Aucune donnée trouvée pour le jour ${day}`);
+        alert('Erreur: Données manquantes pour ce jour.');
     }
 };
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// INITIALISATION - TOUTES LES PORTES OUVERTES
+// ═══════════════════════════════════════════════════════════════════════════════
 
-// =======================================================================================================
-// 4. BLOC D'INITIALISATION DU DOM
-// =======================================================================================================
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('📅 Initialisation du calendrier...');
+    console.log('🎄 Initialisation du Calendrier de l\'Avent...');
     
     const doors = document.querySelectorAll('.door');
     
-    // -------------------------------------------------------------------------------------------------------
-    const currentDay = 25; // Mode test actif. A remplacer par new Date().getDate(); pour la mise en production.
-    // -------------------------------------------------------------------------------------------------------
+    console.log('🔓 Mode: TOUTES LES PORTES OUVERTES');
 
-    // Initialisation : Vérifie l'état des portes
     doors.forEach(door => {
         const day = parseInt(door.dataset.day);
         
-        // 1. GESTION DU VERROUILLAGE/DEVERROUILLAGE
-        if (day > currentDay) {
-             door.classList.add('locked');
-        } else {
-             door.classList.add('unlocked');
-        }
+        // TOUTES LES PORTES SONT DÉVERROUILLÉES
+        door.classList.add('unlocked');
+        door.classList.remove('locked');
+        console.log(`✅ Porte ${day} : OUVERTE`);
 
-        // 2. GESTION DES SOUMISSIONS
+        // GESTION DES SOUMISSIONS (portes déjà répondues)
         if (localStorage.getItem(`door_${day}_submitted`) === 'true') {
             door.classList.add('submitted');
             
-            // Récupère l'image pour l'afficher sur le recto
             const data = qcmData.find(d => d.day === day);
             if (data) {
                 const doorFront = door.querySelector('.door-front');
@@ -290,20 +267,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 3. AJOUT onclick DIRECTEMENT
-        // Cette méthode est plus compatible que addEventListener dans certains cas
-        door.setAttribute('onclick', `handleDoorClick(${day})`);
-        console.log(`✅ Porte ${day} initialisée avec onclick`);
+        // AJOUT DU GESTIONNAIRE DE CLIC (nouvelle méthode qui fonctionne)
+        door.onclick = function() {
+            handleDoorClick(day);
+        };
     });
     
-    console.log('✅ Calendrier initialisé avec succès !');
+    console.log('✅ Calendrier initialisé - Toutes les portes sont ouvertes !');
 }); 
 
-// =======================================================================================================
-// 5. FONCTIONS GLOBALES (Accessibles par l'HTML onclick)
-// =======================================================================================================
+// ═══════════════════════════════════════════════════════════════════════════════
+// FONCTIONS GLOBALES - NE PAS TOUCHER (Ça marche déjà)
+// ═══════════════════════════════════════════════════════════════════════════════
 
-// FONCTIONS MODALES PRINCIPALES (Quiz)
 window.closePopup = function() {
     document.getElementById('door-overlay').classList.remove('active');
 };
@@ -318,7 +294,6 @@ window.closePopupIfClickedOutside = function(e) {
     }
 };
 
-// Fonctionnalité Règlement
 window.openReglement = function() {
     document.getElementById('reglement-overlay').classList.add('active');
 };
@@ -327,7 +302,6 @@ window.closeReglement = function() {
     document.getElementById('reglement-overlay').classList.remove('active');
 };
 
-// Fonctionnalité RGPD Info
 window.openGdprInfo = function() {
     document.getElementById('gdpr-info-overlay').classList.add('active');
 };
@@ -341,10 +315,34 @@ window.acceptGdprInfo = function() {
     window.closeGdprInfo();
 };
 
-// Fonction de Réinitialisation
+// ═══════════════════════════════════════════════════════════════════════════════
+// FONCTION DE RESET
+// ═══════════════════════════════════════════════════════════════════════════════
+
 window.resetCalendar = function() {
-    if (confirm("Attention : Réinitialiser tout le calendrier ? Cette action ne supprime pas les entrées déjà enregistrées dans le Google Sheet.")) {
+    if (confirm("⚠️ Réinitialiser le calendrier ?\n\nCela effacera toutes vos réponses locales.\n(Les données sur Google Sheets ne seront pas supprimées)")) {
         localStorage.clear();
+        console.log('🔄 Calendrier réinitialisé');
         location.reload();
     }
 };
+
+// Afficher l'état du calendrier
+window.showCalendarStatus = function() {
+    console.log('═══════════════════════════════════════════════════════════');
+    console.log('📊 ÉTAT DU CALENDRIER');
+    console.log('═══════════════════════════════════════════════════════════');
+    console.log('Mode : 🔓 TOUTES LES PORTES OUVERTES');
+    
+    let submittedDays = [];
+    for (let i = 1; i <= 25; i++) {
+        if (localStorage.getItem(`door_${i}_submitted`) === 'true') {
+            submittedDays.push(i);
+        }
+    }
+    console.log(`Portes déjà répondues : ${submittedDays.length > 0 ? submittedDays.join(', ') : 'Aucune'}`);
+    console.log('═══════════════════════════════════════════════════════════');
+};
+
+console.log('%c🎄 Toutes les portes sont ouvertes pour les tests ! 🎄', 'background: #4caf50; color: white; padding: 10px; font-size: 14px; font-weight: bold;');
+console.log('Commandes disponibles : resetCalendar() | showCalendarStatus()');
