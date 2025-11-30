@@ -124,7 +124,7 @@ async function handleFormSubmit(e, data) {
         </div>
     `;
 
-    // ❌ Ne pas fermer la pop-up ici. Le message de confirmation s'affiche à la place du formulaire.
+    // ⌠Ne pas fermer la pop-up ici. Le message de confirmation s'affiche à la place du formulaire.
     // window.closePopup(); 
 }
 
@@ -168,7 +168,7 @@ function openPopupWithData(data) {
     }
     // Fin de la gestion Jour 25
     
-    // --- GESTION JOURS 1 à 24 (QCM) ---
+    // --- GESTION JOURS 1 À 24 (QCM) ---
     let optionsHTML = '';
     data.options.forEach((opt) => {
         optionsHTML += `
@@ -215,6 +215,9 @@ function openPopupWithData(data) {
 // 3. FONCTION DE CLIC PRINCIPALE
 // =======================================================================================================
 const doorClickHandler = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
     const doorElement = e.currentTarget; 
     const day = parseInt(doorElement.dataset.day);
 
@@ -293,9 +296,10 @@ window.closePopupIfClickedOutside = function(e) {
         window.closePopup();
     } else if (e.target.id === 'reglement-overlay') {
         window.closeReglement();
+    } else if (e.target.id === 'gdpr-info-overlay') {
+        window.closeGdprInfo();
     }
 };
-
 
 // Fonctionnalité Règlement
 window.openReglement = function() {
@@ -304,6 +308,27 @@ window.openReglement = function() {
 
 window.closeReglement = function() {
     document.getElementById('reglement-overlay').classList.remove('active');
+};
+
+window.closeReglementIfClickedOutside = function(e) {
+    if (e.target.id === 'reglement-overlay') {
+        window.closeReglement();
+    }
+};
+
+// Fonctionnalité RGPD Info
+window.openGdprInfo = function() {
+    document.getElementById('gdpr-info-overlay').classList.add('active');
+};
+
+window.closeGdprInfo = function() {
+    document.getElementById('gdpr-info-overlay').classList.remove('active');
+};
+
+window.acceptGdprInfo = function() {
+    // Marquer que l'utilisateur a accepté les conditions
+    localStorage.setItem('gdpr_info_accepted', 'true');
+    window.closeGdprInfo();
 };
 
 // Fonction de Réinitialisation
