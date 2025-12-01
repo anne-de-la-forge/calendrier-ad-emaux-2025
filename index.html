@@ -210,12 +210,16 @@
     color: var(--primary-marine); /* Couleur marine */
     display: block;
 }
+          .door.locked {
+            filter: grayscale(80%) !important;
+            opacity: 0.7 !important;
+            cursor: not-allowed !important;
+            pointer-events: none !important;
         }
 
-        .door.locked {
-            filter: grayscale(80%);
-            opacity: 0.7;
-            cursor: not-allowed;
+        .door.locked .door-front {
+            filter: grayscale(80%) !important;
+            opacity: 0.7 !important;
         }
         .door-back {
             display: none; 
