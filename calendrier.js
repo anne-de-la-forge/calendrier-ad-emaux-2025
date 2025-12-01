@@ -8,7 +8,7 @@
 // ⚙️ MODE TEST - ACTIVATION/DÉSACTIVATION
 // ═══════════════════════════════════════════════════════════════════════════════
 const TEST_MODE = false; // ⚠️ Mettre à false pour le lancement !
-const TEST_DATE = "2025-12-05";
+const TEST_DATE = "2025-12-25";
 
 const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWrdi9dEkmfFFgSnLRYuJpEgM-oTB3Zq3Z6WVrrvV3MgSUo-qtZXpN976-A4iAOcBs/exec'; 
 
