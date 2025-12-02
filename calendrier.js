@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════════
-// CALENDRIER DE L'AVENT AD ÉMAUX - JOURS PASSÉS ACCESSIBLES
+// CALENDRIER DE L'AVENT AD ÉMAUX - OPTION B : SEUL LE JOUR ACTUEL ACCESSIBLE
 // ═══════════════════════════════════════════════════════════════════════════════
-// Comportement : Les jours passés restent accessibles, même non répondus
+// Comportement : Si un jour n'est pas répondu, il devient INACCESSIBLE
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -12,7 +12,7 @@ const TEST_DATE = null;
 
 const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWrdi9dEkmfFFgSnLRYuJpEgM-oTB3Zq3Z6WVrrvV3MgSUo-qtZXpN976-A4iAOcBs/exec'; 
 
-console.log("🎄 Calendrier de l'Avent AD Émaux chargé - Jours passés accessibles !");
+console.log("🎄 Calendrier de l'Avent AD Émaux chargé - Mode : Une chance par jour !");
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // 📅 FONCTION DE GESTION DES DATES
@@ -43,10 +43,9 @@ function getCurrentDay() {
     }
 }
 
-// 🆕 NOUVELLE LOGIQUE : Une porte est accessible si :
-// 1. C'est un jour passé (même non répondu)
-// 2. C'est le jour actuel
-// 3. OU elle a déjà été répondue
+// 🆕 NOUVELLE LOGIQUE : Une porte est accessible SEULEMENT si :
+// 1. C'est le jour actuel ET elle n'a pas été répondue
+// 2. OU elle a déjà été répondue (pour afficher l'image)
 function isDoorUnlocked(doorDay) {
     if (TEST_MODE) {
         return true; // Mode test : toutes les portes ouvertes
@@ -56,17 +55,17 @@ function isDoorUnlocked(doorDay) {
     const hasBeenSubmitted = localStorage.getItem(`door_${doorDay}_submitted`) === 'true';
     
     // Une porte est déverrouillée si :
-    // - C'est un jour passé OU le jour actuel
-    // - OU elle a déjà été répondue
+    // - C'est le jour actuel OU un jour passé (peu importe si répondue ou non)
+    // - OU elle a déjà été répondue (pour afficher l'image)
     if (doorDay <= currentDay) {
-        return true; // Les jours passés et le jour actuel sont toujours accessibles
+        return true; // Le jour actuel et les jours passés sont toujours accessibles
     }
     
     if (hasBeenSubmitted) {
-        return true; // Les portes répondues restent visibles
+        return true; // Les portes répondues restent visibles (pour afficher l'image)
     }
     
-    // Seuls les jours futurs sont verrouillés
+    // Tous les autres cas : verrouillée
     return false;
 }
 
@@ -201,74 +200,91 @@ function openPopupWithData(data) {
             <a href="#" class="close-btn" onclick="closePopup()">&times;</a>
             <div class="winner-announcement" style="text-align: center; padding: 40px;">
                 <h2 style="color: var(--accent-gold); font-family: 'Playfair Display', serif; font-size: 2.5em; margin-bottom: 0;">Joyeux Noël ! ✨</h2>
-                <p style="font-size: 1.2em; margin: 20px 0;">Merci d'avoir participé à notre Calendrier de l'Avent !</p>
-                <p style="margin-top: 30px; font-size: 0.95em;">Les gagnants seront contactés par e-mail début janvier. 🎁</p>
+               <h1 style="color: var(--primary-marine); font-family: 'Playfair Display', serif; font-size: 3em; margin-top: 5px; margin-bottom: 30px;">Jour du Grand Tirage<br>au Sort</h1>
+                
+                <p style="font-size: 1.2em; margin-bottom: 20px; font-weight: bold;">
+                    Merci à tous d'avoir participé à notre Calendrier de l'Avent
+                </p>
+                
+                <div style="padding: 20px; background-color: var(--light-bg); border: 2px solid var(--accent-gold); border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p style="font-size: 1.2em; margin: 5px 0;">Le tirage au sort aura lieu ce 25 décembre.</p>
+                    <p style="font-size: 1.2em; margin: 5px 0; font-weight: 700; color: var(--primary-marine);">Le gagnant sera contacté personnellement par e-mail début janvier !</p>
+                </div>
+                
+                <p style="margin-top: 30px; font-style: italic; font-size: 0.9em;">Bonnes fêtes de fin d'année à tous.</p>
+                
                 <button onclick="closePopup()" class="cta-button" style="margin-top: 30px;">Fermer</button>
             </div>
         `;
         overlay.classList.add('active');
-        return;
+        return; 
     }
-
-    const optionsHtml = data.options.map(opt => `
-        <label class="radio-option">
-            <input type="radio" name="reponse_jour_${data.day}" value="${opt.value}" required>
-            <span>${opt.text}</span>
-        </label>
-    `).join('');
+    
+    let optionsHTML = '';
+    data.options.forEach((opt) => {
+        optionsHTML += `
+            <label>
+                <input type="radio" name="reponse_jour_${data.day}" value="${opt.value}" required>
+                ${opt.text}
+            </label>
+        `;
+    });
 
     popupContent.innerHTML = `
-        <a href="#" class="close-btn" onclick="closePopup()">&times;</a>
-        <div class="popup-image-container">
-            <img src="${data.image}" alt="Image du jour ${data.day}">
-        </div>
-        <div class="popup-question-container">
-            <h3 class="popup-question">${data.question}</h3>
-            <form id="quiz-form-${data.day}">
-                <div class="options-container">
-                    ${optionsHtml}
-                </div>
-                
-                <div class="form-group" style="margin-top: 25px;">
-                    <label for="email-${data.day}" style="display: block; margin-bottom: 8px; font-weight: 500;">Votre e-mail :</label>
-                    <input type="email" id="email-${data.day}" name="email" placeholder="exemple@email.com" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em;">
-                </div>
+        <img src="${data.image}" alt="Image jour ${data.day}">
+        <h4>${data.title} (Jour ${data.day})</h4>
+        <p style="font-weight:bold; margin-bottom:15px;">${data.question}</p>
+        
+        <form id="current-quiz-form" class="quiz-form" data-day="${data.day}">
+            <div class="quiz-options">
+                ${optionsHTML}
+            </div>
+            
+            <input type="text" name="hp_field" class="honeypot" tabindex="-1" autocomplete="off">
+            <input type="email" name="email" placeholder="Votre e-mail (obligatoire)" required>
+            
+            <div class="rgpd-checkbox-container">
+                <input type="checkbox" id="rgpd_check" name="rgpd_consent" value="true">
+                <label for="rgpd_check">J'accepte d'être recontacté(e) et de recevoir la newsletter. <a href="#" onclick="openGdprInfo(); return false;" style="color: var(--primary-marine); text-decoration: underline;">Politique de confidentialité</a></label>
+            </div>
 
-                <div class="form-group" style="margin-top: 20px;">
-                    <label style="display: flex; align-items: start; cursor: pointer;">
-                        <input type="checkbox" name="rgpd_consent" required style="margin-right: 10px; margin-top: 3px; cursor: pointer;">
-                        <span style="font-size: 0.9em; line-height: 1.4;">
-                            J'accepte d'être recontacté(e) par AD Émaux et de recevoir la newsletter pour participer au tirage au sort. 
-                            <a href="#" onclick="openGdprInfo(); return false;" style="color: var(--accent-gold); text-decoration: underline;">En savoir plus</a>
-                        </span>
-                    </label>
-                </div>
-
-                <input type="text" name="hp_field" style="display:none;" tabindex="-1" autocomplete="off">
-
-                <button type="submit" class="btn-submit cta-button" style="width: 100%; margin-top: 25px;">Je valide et participe</button>
-                
-                <p style="font-size: 0.85em; color: #666; margin-top: 15px; text-align: center;">
-                    <a href="#" onclick="openReglement(); return false;" style="color: var(--accent-gold); text-decoration: underline;">Consulter le règlement du jeu</a>
-                </p>
-            </form>
-        </div>
+            <button type="submit" class="btn-submit">Je valide et participe</button>
+            <small>Réponse correcte = 1 chance de gagner.</small>
+        </form>
     `;
 
-    const form = document.getElementById(`quiz-form-${data.day}`);
-    form.onsubmit = (e) => handleFormSubmit(e, data);
-
     overlay.classList.add('active');
+
+    const form = document.getElementById('current-quiz-form');
+    form.addEventListener('submit', async function(e) {
+        await handleFormSubmit(e, data); 
+    });
 }
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// FONCTION DE CLIC - AVEC GESTION STRICTE DU VERROUILLAGE
+// ═══════════════════════════════════════════════════════════════════════════════
+
 window.handleDoorClick = function(day) {
+    console.log(`🚪 Clic sur la porte ${day}`);
+    
     const doorElement = document.getElementById(`day-${day}`);
     
-    if (!doorElement.classList.contains('unlocked')) {
-        // Seuls les jours futurs affichent ce message
+    if (!doorElement) {
+        console.error(`❌ Porte introuvable : day-${day}`);
+        return;
+    }
+    
+    if (doorElement.classList.contains('locked')) {
+        console.log(`🔒 Porte ${day} verrouillée`);
+        
         const currentDay = getCurrentDay();
+        
+        // Message différent selon si c'est un jour futur ou passé
         if (day > currentDay) {
             alert(`Cette porte s'ouvrira le ${day} décembre ! 🎄`);
+        } else {
+            alert(`Cette porte du ${day} décembre est maintenant fermée. ⏰\n\nUne seule chance par jour ! Rendez-vous à la date du jour pour participer.`);
         }
         return;
     }
@@ -297,12 +313,12 @@ window.handleDoorClick = function(day) {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// INITIALISATION - JOURS PASSÉS ET ACTUELS ACCESSIBLES
+// INITIALISATION - MODE STRICT : SEUL LE JOUR ACTUEL EST ACCESSIBLE
 // ═══════════════════════════════════════════════════════════════════════════════
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🎄 Initialisation du Calendrier de l\'Avent...');
-    console.log('✨ Mode : Jours passés accessibles !');
+    console.log('⚠️  Mode STRICT : Une seule chance par jour !');
     
     const doors = document.querySelectorAll('.door');
     const currentDay = getCurrentDay();
@@ -324,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (hasBeenSubmitted) {
             door.classList.add('submitted');
-            door.classList.add('unlocked');
+            door.classList.add('unlocked'); // Pour que isDoorUnlocked retourne true
             
             const data = qcmData.find(d => d.day === day);
             if (data) {
@@ -340,20 +356,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             console.log(`✅ Porte ${day} : RÉPONDUE`);
         }
-        // GESTION DES ÉTATS : JOURS PASSÉS ET ACTUELS OUVERTS
+        // GESTION DES ÉTATS : SEUL LE JOUR ACTUEL EST OUVERT (sauf si déjà répondu)
         else {
             if (isDoorUnlocked(day)) {
                 door.classList.add('unlocked');
                 door.classList.remove('locked');
-                if (day < currentDay) {
-                    console.log(`✅ Porte ${day} : OUVERTE (jour passé - rattrapage possible)`);
-                } else {
-                    console.log(`✅ Porte ${day} : OUVERTE (jour actuel)`);
-                }
+                console.log(`✅ Porte ${day} : OUVERTE (jour actuel)`);
             } else {
                 door.classList.add('locked');
                 door.classList.remove('unlocked');
-                console.log(`🔒 Porte ${day} : VERROUILLÉE (jour futur)`);
+                
+                if (day < currentDay) {
+                    console.log(`🔒 Porte ${day} : VERROUILLÉE (jour passé non répondu)`);
+                } else {
+                    console.log(`🔒 Porte ${day} : VERROUILLÉE (jour futur)`);
+                }
             }
         }
 
@@ -366,8 +383,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (TEST_MODE) {
         console.log('%c✅ Calendrier initialisé - MODE TEST', 'background: #4caf50; color: white; padding: 10px; font-size: 14px; font-weight: bold;');
     } else {
-        console.log('✅ Calendrier initialisé - Jours passés accessibles');
-        console.log('💡 Les jours manqués peuvent être rattrapés !');
+        console.log('✅ Calendrier initialisé - Mode Production STRICT');
+        console.log('⚠️  Rappel : Une seule chance par jour !');
     }
 }); 
 
@@ -424,9 +441,9 @@ window.resetCalendar = function() {
 
 window.showCalendarStatus = function() {
     console.log('═══════════════════════════════════════════════════════════');
-    console.log('📊 ÉTAT DU CALENDRIER - JOURS PASSÉS ACCESSIBLES');
+    console.log('📊 ÉTAT DU CALENDRIER - MODE STRICT');
     console.log('═══════════════════════════════════════════════════════════');
-    console.log(`Mode : ${TEST_MODE ? '🧪 TEST (toutes portes ouvertes)' : '📅 PRODUCTION (jours passés accessibles)'}`);
+    console.log(`Mode : ${TEST_MODE ? '🧪 TEST (toutes portes ouvertes)' : '📅 PRODUCTION STRICT (une chance par jour)'}`);
     
     if (!TEST_MODE) {
         const currentDay = getCurrentDay();
@@ -434,21 +451,21 @@ window.showCalendarStatus = function() {
         if (TEST_DATE) {
             console.log(`Date simulée : ${TEST_DATE}`);
         }
-        console.log(`Portes accessibles : 1 à ${currentDay}`);
+        console.log(`Porte accessible aujourd'hui : ${currentDay}`);
         
         let submittedDays = [];
-        let availableDays = [];
+        let missedDays = [];
         
-        for (let i = 1; i <= currentDay; i++) {
+        for (let i = 1; i < currentDay; i++) {
             if (localStorage.getItem(`door_${i}_submitted`) === 'true') {
                 submittedDays.push(i);
             } else {
-                availableDays.push(i);
+                missedDays.push(i);
             }
         }
         
         console.log(`Portes répondues : ${submittedDays.length > 0 ? submittedDays.join(', ') : 'Aucune'}`);
-        console.log(`Portes disponibles (non répondues) : ${availableDays.length > 0 ? availableDays.join(', ') : 'Aucune'}`);
+        console.log(`Portes manquées (fermées) : ${missedDays.length > 0 ? missedDays.join(', ') : 'Aucune'}`);
     }
     
     console.log('═══════════════════════════════════════════════════════════');
@@ -458,7 +475,7 @@ if (TEST_MODE) {
     console.log('%c🧪 MODE TEST ACTIVÉ', 'background: #ff9800; color: white; padding: 10px; font-size: 16px; font-weight: bold;');
     console.log('%cToutes les portes sont ouvertes pour les tests !', 'background: #4caf50; color: white; padding: 5px;');
 } else {
-    console.log('%c📅 MODE PRODUCTION - JOURS PASSÉS ACCESSIBLES', 'background: #2196F3; color: white; padding: 10px; font-size: 16px; font-weight: bold;');
-    console.log('%c💡 Possibilité de rattraper les jours manqués !', 'background: #4caf50; color: white; padding: 5px;');
+    console.log('%c📅 MODE PRODUCTION STRICT', 'background: #2196F3; color: white; padding: 10px; font-size: 16px; font-weight: bold;');
+    console.log('%c⚠️ Une seule chance par jour !', 'background: #ff5722; color: white; padding: 5px;');
 }
 console.log('Commandes disponibles : resetCalendar() | showCalendarStatus()');
