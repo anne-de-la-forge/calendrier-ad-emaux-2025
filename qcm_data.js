@@ -42,7 +42,7 @@ const qcmData = [
         day: 4,
         title: "Murmures d'écume",
         question: "Quelle est la matière qui recouvre les pièces blanches Écumes ?",
-        image: "jour 4 _Écume  @Anne de La Forge mom.jpg",
+        image: "jour4_ecume.jpg",
         options: [
             { text: "A. Un émail blanc spécifique par sa texture", value: "A" },
             { text: "B. Un émail blanc d'orfèvre", value: "B" },
